@@ -3,92 +3,119 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
-        // Crear lista de expedicionarios y montañas
-        List<Alpinista> alpinistas = new ArrayList<>();
-        List<Medico> medicos = new ArrayList<>();
+
+        // Crear listas
+        List<Expedicionario> expedicionarios = new ArrayList<>();
         List<Montana> montanas = new ArrayList<>();
         List<Expedicion> expediciones = new ArrayList<>();
 
-        System.out.println("Gestión de Expediciones - Sistema Interactivo");
-        
-        // Ingresar montañas
-        System.out.println("Ingrese el número de montañas que desea registrar:");
-        int numMontanas = scanner.nextInt();
-        scanner.nextLine(); // Consumir salto de línea
+        boolean salir = false;
 
-        for (int i = 0; i < numMontanas; i++) {
-            System.out.println("Ingrese el nombre de la montaña:");
-            String nombre = scanner.nextLine();
-            System.out.println("Ingrese la altura de la montaña (en metros):");
-            double altura = scanner.nextDouble();
+        while (!salir) {
+            // Menú
+            System.out.println("\nGestión de Expediciones - Menú");
+            System.out.println("1. Registrar Montaña");
+            System.out.println("2. Registrar Expedicionario");
+            System.out.println("3. Crear Expedición");
+            System.out.println("4. Ejecutar Acciones de los Expedicionarios");
+            System.out.println("5. Generar Reporte de Expedición");
+            System.out.println("6. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
             scanner.nextLine(); // Consumir salto de línea
-            System.out.println("Ingrese la dificultad de la montaña:");
-            String dificultad = scanner.nextLine();
-            montanas.add(new Montana(nombre, altura, dificultad));
-        }
 
-        // Ingresar expedicionarios
-        System.out.println("Ingrese el número de expedicionarios que desea registrar:");
-        int numExpedicionarios = scanner.nextInt();
-        scanner.nextLine(); // Consumir salto de línea
+            switch (opcion) {
+                case 1:
+                    // Registrar Montaña
+                    System.out.println("Ingrese el nombre de la montaña:");
+                    String nombre = scanner.nextLine();
+                    System.out.println("Ingrese la altura de la montaña (en metros):");
+                    double altura = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.println("Ingrese la dificultad de la montaña:");
+                    String dificultad = scanner.nextLine();
+                    montanas.add(new Montana(nombre, altura, dificultad));
+                    System.out.println("Montaña registrada exitosamente.");
+                    break;
 
-        for (int i = 0; i < numExpedicionarios; i++) {
-            System.out.println("Ingrese el nombre del expedicionario:");
-            String nombre = scanner.nextLine();
-            System.out.println("Seleccione el rol del expedicionario (1: Alpinista, 2: Médico):");
-            int rol = scanner.nextInt();
-            scanner.nextLine(); // Consumir salto de línea
-            if (rol == 1) {
-                alpinistas.add(new Alpinista("A" + (alpinistas.size() + 1), nombre));
-            } else if (rol == 2) {
-                System.out.println("Ingrese la especialidad del médico:");
-                String especialidad = scanner.nextLine();
-                medicos.add(new Medico("M" + (medicos.size() + 1), nombre, especialidad));
-            } else {
-                System.out.println("Rol no válido, intente nuevamente.");
-                i--;
+                case 2:
+                    // Registrar Expedicionario
+                    System.out.println("Ingrese el nombre del expedicionario:");
+                    String nombreExpedicionario = scanner.nextLine();
+                    System.out.println("Seleccione el rol del expedicionario (1: Alpinista, 2: Médico):");
+                    int rol = scanner.nextInt();
+                    scanner.nextLine();
+                    if (rol == 1) {
+                        expedicionarios.add(new Alpinista("A" + (expedicionarios.size() + 1), nombreExpedicionario));
+                        System.out.println("Alpinista registrado exitosamente.");
+                    } else if (rol == 2) {
+                        System.out.println("Ingrese la especialidad del médico:");
+                        String especialidad = scanner.nextLine();
+                        expedicionarios.add(new Medico("M" + (expedicionarios.size() + 1), nombreExpedicionario, especialidad));
+                        System.out.println("Médico registrado exitosamente.");
+                    } else {
+                        System.out.println("Rol no válido.");
+                    }
+                    break;
+
+                case 3:
+                    // Crear Expedición
+                    if (montanas.isEmpty()) {
+                        System.out.println("No hay montañas registradas.");
+                        break;
+                    }
+                    System.out.println("Seleccione una montaña para la expedición:");
+                    for (int i = 0; i < montanas.size(); i++) {
+                        System.out.println((i + 1) + ". " + montanas.get(i).getNombre());
+                    }
+                    int seleccionMontana = scanner.nextInt() - 1;
+                    scanner.nextLine();
+                    Montana montanaSeleccionada = montanas.get(seleccionMontana);
+                    Expedicion nuevaExpedicion = new Expedicion(
+                            "E" + (expediciones.size() + 1),
+                            new Date(),
+                            montanaSeleccionada,
+                            new ArrayList<>(),
+                            new ArrayList<>()
+                    );
+                    expediciones.add(nuevaExpedicion);
+                    System.out.println("Expedición creada exitosamente.");
+                    break;
+
+                case 4:
+                    // Ejecutar acciones de expedicionarios (Polimorfismo)
+                    for (Expedicionario expedicionario : expedicionarios) {
+                        expedicionario.realizarAccion();
+                    }
+                    break;
+
+                case 5:
+                    // Generar Reporte
+                    if (expediciones.isEmpty()) {
+                        System.out.println("No hay expediciones creadas.");
+                        break;
+                    }
+                    System.out.println("Seleccione una expedición para generar reporte:");
+                    for (int i = 0; i < expediciones.size(); i++) {
+                        System.out.println((i + 1) + ". Expedición ID: " + expediciones.get(i).getID());
+                    }
+                    int seleccionReporte = scanner.nextInt() - 1;
+                    scanner.nextLine();
+                    Expedicion reporteExpedicion = expediciones.get(seleccionReporte);
+                    reporteExpedicion.generarReporte();
+                    break;
+
+                case 6:
+                    // Salir
+                    salir = true;
+                    System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
             }
         }
-
-        // Crear expedición
-        System.out.println("Creando expedición...");
-        System.out.println("Seleccione una montaña para la expedición:");
-        for (int i = 0; i < montanas.size(); i++) {
-            System.out.println((i + 1) + ". " + montanas.get(i).getNombre());
-        }
-        int seleccionMontana = scanner.nextInt() - 1;
-        scanner.nextLine(); // Consumir salto de línea
-
-        Montana montanaSeleccionada = montanas.get(seleccionMontana);
-
-        Expedicion nuevaExpedicion = new Expedicion(
-                "E" + (expediciones.size() + 1),
-                new Date(),
-                montanaSeleccionada,
-                alpinistas,
-                medicos
-        );
-        expediciones.add(nuevaExpedicion);
-
-        // Registrar si alpinistas alcanzaron la cima
-        System.out.println("Registro de cimas alcanzadas:");
-        for (Alpinista alpinista : alpinistas) {
-            System.out.println("¿El alpinista " + alpinista.getNombre() + " alcanzó la cima? (1: Sí, 2: No)");
-            int respuesta = scanner.nextInt();
-            scanner.nextLine(); // Consumir salto de línea
-            alpinista.registrarCima(respuesta == 1);
-        }
-
-        // Generar reporte
-        System.out.println("Generando reporte de la expedición:");
-        for (Alpinista alpinista : nuevaExpedicion.getAlpinistas()) {
-            System.out.println("Alpinista: " + alpinista.getNombre() + ", Cima alcanzada: " + alpinista.isCimaAlcanzada());
-        }
-        for (Medico medico : nuevaExpedicion.getMedicos()) {
-            System.out.println("Médico: " + medico.getNombre() + ", Especialidad: " + medico.getEspecialidad());
-        }
-        System.out.println("Montaña de la expedición: " + nuevaExpedicion.getMontana().getNombre());
 
         scanner.close();
     }
