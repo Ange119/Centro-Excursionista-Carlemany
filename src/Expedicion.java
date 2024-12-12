@@ -18,12 +18,12 @@ public class Expedicion {
         this.cimaAlcanzada = false;
     }
 
-    public void registrarParticipacion(Expedicionario expedicionario) {
-        if (expedicionario instanceof Alpinista) {
-            alpinistas.add((Alpinista) expedicionario);
-        } else if (expedicionario instanceof Medico) {
-            medicos.add((Medico) expedicionario);
-        }
+    public String getID() {
+        return ID;
+    }
+
+    public Montana getMontana() {
+        return montana;
     }
 
     public List<Alpinista> getAlpinistas() {
@@ -32,10 +32,6 @@ public class Expedicion {
 
     public List<Medico> getMedicos() {
         return medicos;
-    }
-
-    public Montana getMontana() {
-        return montana;
     }
 
     public boolean isCimaAlcanzada() {

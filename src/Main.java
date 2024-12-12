@@ -65,6 +65,19 @@ public class Main {
                         System.out.println("No hay montañas registradas.");
                         break;
                     }
+                    if (expedicionarios.isEmpty()) {
+                        System.out.println("No hay expedicionarios registrados.");
+                        break;
+                    }
+                
+                    // Verificar si hay al menos un médico registrado
+                    boolean hayMedico = expedicionarios.stream().anyMatch(exp -> exp instanceof Medico);
+                    if (!hayMedico) {
+                        System.out.println("Error: No hay médicos registrados en el sistema. No se puede crear una expedición.");
+                        break;
+                    }
+                
+                    // Seleccionar Montaña
                     System.out.println("Seleccione una montaña para la expedición:");
                     for (int i = 0; i < montanas.size(); i++) {
                         System.out.println((i + 1) + ". " + montanas.get(i).getNombre());
@@ -72,21 +85,69 @@ public class Main {
                     int seleccionMontana = scanner.nextInt() - 1;
                     scanner.nextLine();
                     Montana montanaSeleccionada = montanas.get(seleccionMontana);
+                
+                    // Seleccionar Participantes
+                    List<Alpinista> alpinistas = new ArrayList<>();
+                    List<Medico> medicos = new ArrayList<>();
+                    boolean participantesValidos = false;
+                
+                    while (!participantesValidos) {
+                        alpinistas.clear();
+                        medicos.clear();
+                        System.out.println("Seleccione los participantes de la expedición:");
+                        for (int i = 0; i < expedicionarios.size(); i++) {
+                            Expedicionario exp = expedicionarios.get(i);
+                            System.out.println((i + 1) + ". " + exp.getNombre() + " (" + exp.obtenerRol() + ")");
+                        }
+                        System.out.println("Ingrese los números de los participantes separados por comas:");
+                        String[] indices = scanner.nextLine().split(",");
+                        for (String indice : indices) {
+                            int pos = Integer.parseInt(indice.trim()) - 1;
+                            Expedicionario seleccionado = expedicionarios.get(pos);
+                            if (seleccionado instanceof Alpinista) {
+                                alpinistas.add((Alpinista) seleccionado);
+                            } else if (seleccionado instanceof Medico) {
+                                medicos.add((Medico) seleccionado);
+                            }
+                        }
+                
+                        // Validar que haya al menos un médico
+                        if (medicos.isEmpty()) {
+                            System.out.println("Error: La expedición debe incluir al menos un médico. Seleccione nuevamente.");
+                        } else {
+                            participantesValidos = true;
+                        }
+                    }
+                
+                    // Registrar si alpinistas alcanzaron la cima
+                    System.out.println("Registro de cimas alcanzadas:");
+                    for (Alpinista alpinista : alpinistas) {
+                        System.out.println("¿El alpinista " + alpinista.getNombre() + " alcanzó la cima? (1: Sí, 2: No)");
+                        int respuesta = scanner.nextInt();
+                        scanner.nextLine(); 
+                        alpinista.registrarCima(respuesta == 1);
+                    }
+                
+                    // Crear Expedición
                     Expedicion nuevaExpedicion = new Expedicion(
                             "E" + (expediciones.size() + 1),
                             new Date(),
                             montanaSeleccionada,
-                            new ArrayList<>(),
-                            new ArrayList<>()
+                            alpinistas,
+                            medicos
                     );
                     expediciones.add(nuevaExpedicion);
-                    System.out.println("Expedición creada exitosamente.");
+                    System.out.println("Expedición creada exitosamente con participantes asignados.");
                     break;
 
                 case 4:
                     // Ejecutar acciones de expedicionarios (Polimorfismo)
-                    for (Expedicionario expedicionario : expedicionarios) {
-                        expedicionario.realizarAccion();
+                    if (expedicionarios.isEmpty()) {
+                        System.out.println("No hay expedicionarios registrados.");
+                    } else {
+                        for (Expedicionario expedicionario : expedicionarios) {
+                            expedicionario.realizarAccion();
+                        }
                     }
                     break;
 

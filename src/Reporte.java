@@ -9,10 +9,10 @@ public class Reporte {
     public Reporte(List<Expedicionario> participante, Map<Expedicionario, Rol> rolParticipantes) {
         this.participante = participante;
         this.rolParticipantes = rolParticipantes;
-        this.cimaAlcanza = cimaAlcanza;
+        this.cimaAlcanza = false;
     }
 
     public void generarReporte() {
-        System.out.println("Generando reporte detallado de la expedicion");
+        System.out.println("Generando reporte detallado de la expedición");
     }
 }

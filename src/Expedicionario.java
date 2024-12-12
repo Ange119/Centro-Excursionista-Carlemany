@@ -1,7 +1,7 @@
-public class Expedicionario {
+public abstract class Expedicionario {
     private String ID;
     private String nombre;
-    private Rol rol ;
+    private Rol rol;
 
     public Expedicionario(String ID, String nombre, Rol rol) {
         this.ID = ID;
@@ -13,11 +13,14 @@ public class Expedicionario {
         return rol;
     }
 
-    public String getID(){
+    public String getID() {
         return ID;
     }
-    public String getNombre(){
+
+    public String getNombre() {
         return nombre;
     }
 
+    // Método abstracto
+    public abstract void realizarAccion();
 }

@@ -1,18 +1,16 @@
 public class Montana {
-    private String nombre ;
+    private String nombre;
     private double altura;
     private String dificultad;
 
-    //Constructor
-    public Montana(String nombre , double  altura, String dificultad) {
-        this.nombre = nombre; // aqui llamo a la variable nombre y que se aguarde en nombre del constructor
+    public Montana(String nombre, double altura, String dificultad) {
+        this.nombre = nombre;
         this.altura = altura;
         this.dificultad = dificultad;
     }
 
-    public void actualizarCatalogo(){
-        System.out.println("Actualizando catalogo de montañas ...");
-
+    public void actualizarCatalogo() {
+        System.out.println("Actualizando catálogo de montañas...");
     }
 
     public String getNombre() {
@@ -26,8 +24,4 @@ public class Montana {
     public String getDificultad() {
         return dificultad;
     }
-
-
-
-
 }
