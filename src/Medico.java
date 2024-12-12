@@ -7,7 +7,12 @@ public class Medico extends Expedicionario {
     }
 
     public void atender() {
-        System.out.println("El médico está atendiendo...");
+        System.out.println("El Médico " + getNombre() + " está atendiendo...");
+    }
+
+    @Override
+    public void realizarAccion() {
+        atender();
     }
 
     public String getEspecialidad() {

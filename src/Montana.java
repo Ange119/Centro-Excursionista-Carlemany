@@ -9,6 +9,10 @@ public class Montana {
         this.dificultad = dificultad;
     }
 
+    public void actualizarCatalogo() {
+        System.out.println("Actualizando catálogo de montañas...");
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -19,9 +23,5 @@ public class Montana {
 
     public String getDificultad() {
         return dificultad;
-    }
-
-    public void actualizarCatalogo() {
-        System.out.println("Actualizando catálogo de montañas...");
     }
 }

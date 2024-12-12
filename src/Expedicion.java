@@ -2,39 +2,52 @@ import java.util.Date;
 import java.util.List;
 
 public class Expedicion {
-    private String id;
-    private Date fecha;
+    private String ID;
+    private Date Fecha;
     private Montana montana;
-    private List<Expedicionario> expedicionarios;
+    private List<Alpinista> alpinistas;
+    private List<Medico> medicos;
+    private boolean cimaAlcanzada;
 
-    public Expedicion(String id, Date fecha, Montana montana, List<Expedicionario> expedicionarios) {
-        this.id = id;
-        this.fecha = fecha;
+    public Expedicion(String ID, Date fecha, Montana montana, List<Alpinista> alpinistas, List<Medico> medicos) {
+        this.ID = ID;
+        this.Fecha = fecha;
         this.montana = montana;
-        this.expedicionarios = expedicionarios;
+        this.alpinistas = alpinistas;
+        this.medicos = medicos;
+        this.cimaAlcanzada = false;
     }
 
-    public void registrarParticipante(Expedicionario expedicionario) {
-        expedicionarios.add(expedicionario);
-    }
-
-    public void marcarCimaAlcanzada() {
-        System.out.println("La cima ha sido alcanzada.");
-    }
-
-    public List<Expedicionario> getExpedicionarios() {
-        return expedicionarios;
+    public String getID() {
+        return ID;
     }
 
     public Montana getMontana() {
         return montana;
     }
 
-    public String getId() {
-        return id;
+    public List<Alpinista> getAlpinistas() {
+        return alpinistas;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
+
+    public boolean isCimaAlcanzada() {
+        return cimaAlcanzada;
+    }
+
+    public void generarReporte() {
+        System.out.println("Generando reporte detallado de la expedición:");
+        System.out.println("Montaña: " + montana.getNombre());
+        System.out.println("Altura: " + montana.getAltura());
+        System.out.println("Participantes:");
+        for (Alpinista alpinista : alpinistas) {
+            System.out.println("- Alpinista: " + alpinista.getNombre() + ", Cima alcanzada: " + alpinista.isCimaAlcanzada());
+        }
+        for (Medico medico : medicos) {
+            System.out.println("- Médico: " + medico.getNombre() + ", Especialidad: " + medico.getEspecialidad());
+        }
     }
 }
