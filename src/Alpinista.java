@@ -1,21 +1,17 @@
+
 public class Alpinista extends Expedicionario {
     private boolean cimaAlcanzada;
 
-    public Alpinista(String ID , String nombre) {
-        super(ID , nombre , Rol.ALPINISTA);
+    public Alpinista(String id, String nombre) {
+        super(id, nombre, Rol.ALPINISTA);
         this.cimaAlcanzada = false;
     }
 
-    public boolean registrarCima( boolean cimaAlcanzada){
-        this.cimaAlcanzada = cimaAlcanzada;
-        return cimaAlcanzada;
+    public void registrarCima() {
+        this.cimaAlcanzada = true;
     }
 
-    public boolean isCimaAlcanzada(){
+    public boolean isCimaAlcanzada() {
         return cimaAlcanzada;
     }
-
-
-
-
 }

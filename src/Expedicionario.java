@@ -1,23 +1,23 @@
-public class Expedicionario {
-    private String ID;
+public abstract class Expedicionario {
+    private String id;
     private String nombre;
-    private Rol rol ;
+    private Rol rol;
 
-    public Expedicionario(String ID, String nombre, Rol rol) {
-        this.ID = ID;
+    public Expedicionario(String id, String nombre, Rol rol) {
+        this.id = id;
         this.nombre = nombre;
         this.rol = rol;
     }
 
-    public Rol obtenerRol() {
-        return rol;
+    public String getId() {
+        return id;
     }
 
-    public String getID(){
-        return ID;
-    }
-    public String getNombre(){
+    public String getNombre() {
         return nombre;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
 }
